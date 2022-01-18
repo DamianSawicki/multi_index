@@ -148,6 +148,12 @@ public:
     return range_rank(lower,upper,dispatch());
   }
 
+  template<typename CompatibleKey>
+  size_type count(const CompatibleKey& x)const
+  {
+    return count(x,comp_);
+  }
+
   template<typename CompatibleKey,typename CompatibleCompare>
   size_type count(const CompatibleKey& x,const CompatibleCompare& comp)const
   {
