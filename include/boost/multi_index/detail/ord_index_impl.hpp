@@ -631,7 +631,7 @@ public:
   }
 
   template<typename CompatibleKey,typename CompatibleCompare>
-  size_type count(const CompatibleKey& x,const CompatibleCompare& comp)const
+  virtual size_type count(const CompatibleKey& x,const CompatibleCompare& comp)const
   {
     std::pair<iterator,iterator> p=equal_range(x,comp);
     size_type n=static_cast<size_type>(std::distance(p.first,p.second));
