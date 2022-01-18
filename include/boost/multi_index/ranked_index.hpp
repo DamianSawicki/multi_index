@@ -151,7 +151,7 @@ public:
   template<typename CompatibleKey>
   size_type count(const CompatibleKey& x)const
   {
-    return count(x,comp_);
+    return count(x,this->comp_);
   }
 
   template<typename CompatibleKey,typename CompatibleCompare>
