@@ -157,7 +157,7 @@ public:
   template<typename CompatibleKey,typename CompatibleCompare>
   size_type count(const CompatibleKey& x,const CompatibleCompare& comp)const
   {
-    std::pair<iterator,iterator> p=equal_range(x,comp);
+    std::pair<iterator,iterator> p=this->equal_range(x,comp);
     return rank(p.second)-rank(p.first);
   }
 
