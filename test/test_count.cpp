@@ -45,13 +45,13 @@ typedef multi_index_container<
       tag<age_r>, BOOST_MULTI_INDEX_MEMBER(employee,int,age)> >
 > employee_set;
 
-void test_count()
+void test_count_hardcoded()
 {
   employee_set es;
   int last_id = 0;
   for(int i = 1; i <= 10; ++i){
     for(int j = 0; j < 2*i; ++j){
-      es.insert(employee(last_id++,40+i)); 
+      es.insert(employee(last_id++,40+i));
     }
   }
   for(uint i = 0; i <= 10; ++i){
@@ -61,19 +61,22 @@ void test_count()
   es.insert(employee(last_id++,60));
   for(int i = 0; i < 40; ++i){
     BOOST_TEST(es.get<age_o>().count(i) == 0);
-    BOOST_TEST(es.get<age_r>().count(i) == 0); 
+    BOOST_TEST(es.get<age_r>().count(i) == 0);
   }
   for(int i = 51; i < 60; ++i){
     BOOST_TEST(es.get<age_o>().count(i) == 0);
-    BOOST_TEST(es.get<age_r>().count(i) == 0); 
+    BOOST_TEST(es.get<age_r>().count(i) == 0);
   }
   BOOST_TEST(es.get<age_o>().count(60) == 1);
   BOOST_TEST(es.get<age_r>().count(60) == 1);
   for(int i = 61; i < 100; ++i){
     BOOST_TEST(es.get<age_o>().count(i) == 0);
-    BOOST_TEST(es.get<age_r>().count(i) == 0); 
+    BOOST_TEST(es.get<age_r>().count(i) == 0);
   }
+}
 
+void test_count_random()
+{
   const int max_age = 100;
   int numbers_of_inserts[] = {10, 100, 1000};
   // Relatively frequent vs unlikely failed insert:
@@ -108,4 +111,10 @@ void test_count()
       }
     }
   }
+}
+
+void test_count()
+{
+  test_count_hardcoded();
+  test_count_random();
 }
