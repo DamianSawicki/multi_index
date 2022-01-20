@@ -75,14 +75,14 @@ void test_count()
   }
 
   const int max_age = 100;
-  int numbers_of_inserts[] = {10, 100, 1000};
+  int numbers_of_inserts[] = {10, 100, 1000, 10000};
   // Relatively frequent vs unlikely failed insert:
   int id_ranges[] = {5000, 1000000000};
   const int random_loops = 1;
   srand(time(NULL));
   for(int x = 0; x < 2; ++x){
     int id_range = id_ranges[x];
-    for(int y = 0; y < 3; ++y) {
+    for(int y = 0; y < 4; ++y) {
       int number_of_inserts = numbers_of_inserts[y];
       for(uint i = 0; i < random_loops; ++i){
         employee_set random_set;
