@@ -67,8 +67,8 @@ void test_count()
     BOOST_TEST(es.get<age_o>().count(i) == 0);
     BOOST_TEST(es.get<age_r>().count(i) == 0); 
   }
-  BOOST_TEST(es.get<age_o>().count(60) == 0);
-  BOOST_TEST(es.get<age_r>().count(60) == 0);
+  BOOST_TEST(es.get<age_o>().count(60) == 1);
+  BOOST_TEST(es.get<age_r>().count(60) == 1);
   for(int i = 61; i < 100; ++i){
     BOOST_TEST(es.get<age_o>().count(i) == 0);
     BOOST_TEST(es.get<age_r>().count(i) == 0); 
@@ -99,8 +99,8 @@ void test_count()
           }
         }
         for(int k = 0; k < max_age; ++k){
-          BOOST_TEST(counts[k] == es.get<age_r>().count(k));
-          BOOST_TEST(counts[k] == es.get<age_o>().count(k));
+          BOOST_TEST(counts[k] == random_set.get<age_r>().count(k));
+          BOOST_TEST(counts[k] == random_set.get<age_o>().count(k));
         } 
       }
     }
