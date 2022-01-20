@@ -54,7 +54,7 @@ void test_count()
       es.insert(employee(last_id++,40+i)); 
     }
   }
-  for(int i = 0; i <= 10; ++i){
+  for(uint i = 0; i <= 10; ++i){
     BOOST_TEST(es.get<age_o>().count(40+i) == 2*i);
     BOOST_TEST(es.get<age_r>().count(40+i) == 2*i);
   }
@@ -75,14 +75,16 @@ void test_count()
   }
 
   const int max_age = 100;
-  int numbers_of_inserts[] = {10, 100, 1000, 10000};
+  int numbers_of_inserts[] = {10, 100, 1000};
   // Relatively frequent vs unlikely failed insert:
-  int id_ranges[] = {5000, 1000000000};
+  int id_ranges[] = {1000, 1000000000};
   const int random_loops = 1;
   srand(time(NULL));
-  for(int x = 0; x < 2; ++x){
+  const int max_x = sizeof(id_ranges)/sizeof(id_ranges[0]);
+  for(int x = 0; x < max_x; ++x){
     int id_range = id_ranges[x];
-    for(int y = 0; y < 4; ++y) {
+    const int max_y = sizeof(numbers_of_inserts)/sizeof(numbers_of_inserts[0]);
+    for(int y = 0; y < max_y; ++y) {
       int number_of_inserts = numbers_of_inserts[y];
       for(uint i = 0; i < random_loops; ++i){
         employee_set random_set;
@@ -91,7 +93,8 @@ void test_count()
         for(int j = 0; j < number_of_inserts; ++j){
           int random_id = rand() % id_range;
           int random_age = rand() % max_age; 
-          std::pair<employee_set::iterator, bool> result = random_set.insert(employee(random_id, random_age));
+          std::pair<employee_set::iterator, bool> result = 
+            random_set.insert(employee(random_id, random_age));
           BOOST_TEST(result.second != used_ids.count(random_id));
           if (result.second) {
             used_ids.insert(random_id);
