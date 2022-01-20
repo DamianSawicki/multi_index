@@ -75,19 +75,19 @@ void test_count()
   }
 
   const int max_age = 100;
-  int numbers_of_inserts[] = {10, 100, 1000, 10000};
+  int numbers_of_inserts[] = {10, 100, 1000};
   // Relatively frequent vs unlikely failed insert:
   int id_ranges[] = {5000, 1000000000};
-  const int random_loops = 100;
+  const int random_loops = 1;
   srand(time(NULL));
   for(int x = 0; x < 2; ++x){
     int id_range = id_ranges[x];
-    for(int y = 0; y < 4; ++y) {
+    for(int y = 0; y < 3; ++y) {
       int number_of_inserts = numbers_of_inserts[y];
-      for(int i = 0; i < random_loops; ++i){
+      for(uint i = 0; i < random_loops; ++i){
         employee_set random_set;
         std::set<int> used_ids;
-        int counts[max_age] = {};
+        uint counts[max_age] = {};
         for(int j = 0; j < number_of_inserts; ++j){
           int random_id = rand() % id_range;
           int random_age = rand() % max_age; 
