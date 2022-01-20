@@ -81,7 +81,7 @@ void test_count_random()
   int numbers_of_inserts[]={10,100,1000};
   // Relatively frequent vs unlikely failed insert:
   int id_ranges[]={1000,1000000000};
-  const int random_loops=1;
+  const int random_loops=10;
   srand(time(NULL));
   const int max_x=sizeof(id_ranges)/sizeof(id_ranges[0]);
   for(int x=0;x<max_x;++x){
