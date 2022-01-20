@@ -29,7 +29,7 @@ struct employee
 
   employee(int id_,int age_):id(id_),age(age_){}
 };
- 
+
 struct id{};
 struct age_o{};
 struct age_r{};
