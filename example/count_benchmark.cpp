@@ -4,8 +4,8 @@
 #include <boost/multi_index/ranked_index.hpp>
 #include <iostream>
 #include <iomanip>
-#include <chrono>
 #include <cmath>
+#include <time.h>
 
 using boost::multi_index_container;
 using namespace boost::multi_index;
@@ -88,57 +88,55 @@ int main()
     for(int iters=100;iters<=1000000;iters*=100){
       std::cout<<"Size "<<std::setw(6)<<es.size()<< ", "
                <<std::setw(7)<<iters<<" calls of count()";
-      auto start=std::chrono::steady_clock::now();
-      auto dur1=start-start;
-      auto dur2=start-start;
+      clock_t start=std::clock();
+      clock_t dur1=start-start;
+      clock_t dur2=start-start;
 
       const int loops=std::sqrt(iters);
       for(int k=0;k<loops;++k){
         if((10*k)%loops==0)
           std::cout<<"."<<std::flush;
 
-        auto start1=std::chrono::steady_clock::now();
+        clock_t start1=std::clock();
         for(int i=0;i<iters/loops;++i) {
           int count=es.get<age>().count(i%max_age);
           if(count<1) // To prevent compiler optimisations.
             std::cout<<count<<std::endl;
         }
-        auto end1=std::chrono::steady_clock::now();
+        clock_t end1=std::clock();
         dur1+=end1-start1;
 
-        auto start2=std::chrono::steady_clock::now();
+        clock_t start2=std::clock();
         for(int i=0;i<iters/loops;++i){
           int count=ers.get<age>().count(i%max_age);
           if(count<1) // To prevent compiler optimisations.
             std::cout<<count<<std::endl;
         }
-        auto end2=std::chrono::steady_clock::now();
+        clock_t end2=std::clock();
         dur2+=end2-start2;
 
         // The following is aimed at avoiding the impact of caching.
-        auto begin_index1=es.get<id>().begin();
+        employee_set::iterator begin_index1=es.get<id>().begin();
         int removed_age1=begin_index1->age;
         es.get<id>().erase(begin_index1);
         es.insert(employee(last_id1++,"Anna",removed_age1));
 
-        auto begin_index2=ers.get<id>().begin();
+        employee_ranked_set::iterator begin_index2=ers.get<id>().begin();
         int removed_age2=begin_index2->age;
         ers.get<id>().erase(begin_index2);
         ers.insert(employee(last_id2++,"Anna",removed_age2));
       }
 
-      long long durMicro1=
-        std::chrono::duration_cast<std::chrono::microseconds>(dur1).count();
+      double durMicro1=((double)dur1)/CLOCKS_PER_SEC*1000;
       std::cout<<std::endl<<std::setw(20)<<durMicro1
-               <<" - time of ordered_index.\n";
+               <<" ms - time of ordered_index.\n";
  
-      long long durMicro2=
-        std::chrono::duration_cast<std::chrono::microseconds>(dur2).count();
+      double durMicro2=((double)dur2)/CLOCKS_PER_SEC*1000;
       std::cout<<std::setw(20)<<durMicro2
-               <<" - time of ranked_index.\n";
+               <<" ms - time of ranked_index.\n";
 
       std::cout<<std::fixed<<std::setprecision(2)<<std::setw(20)
-               <<((double)durMicro1)/durMicro2<<" - ratio."<<std::endl;
+               <<durMicro1/durMicro2<<" - ratio."<<std::endl;
     }
   }
 
