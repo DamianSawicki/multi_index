@@ -61,7 +61,7 @@ int main()
            <<" different values of the index on which we call count.\n";
 
   int last_id1=0,last_id2=0;
-  
+
   for(int j=-1;j<11;++j){
     int size=es.size();
     int people=1000;
@@ -130,7 +130,7 @@ int main()
       double durMicro1=((double)dur1)/CLOCKS_PER_SEC*1000;
       std::cout<<std::endl<<std::setw(20)<<durMicro1
                <<" ms - time of ordered_index.\n";
- 
+
       double durMicro2=((double)dur2)/CLOCKS_PER_SEC*1000;
       std::cout<<std::setw(20)<<durMicro2
                <<" ms - time of ranked_index.\n";
