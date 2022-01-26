@@ -59,7 +59,7 @@ int main()
   std::cout<<"This program benchmarks two implementations, and the duration "
 	     "of its execution may be considerable. Please feel free to stop "
 	     "it at any point or play with the constants.\n";
-  
+
   for(int variant=0;variant<2;++variant){
     employee_set es;
     employee_ranked_set ers;

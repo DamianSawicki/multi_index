@@ -75,9 +75,15 @@ void test_count_hardcoded()
   }
 }
 
+const int decade=10;
+struct smaller_decade
+{
+  bool operator()(int x,int y)const{return x/decade<y/decade;}
+};
+
 void test_count_random()
 {
-  const int max_age=100;
+  const int max_age=100; // Should be a multiple of decade.
   int numbers_of_inserts[]={10,100,1000};
   // Relatively frequent vs unlikely failed insert:
   int id_ranges[]={1000,1000000000};
@@ -107,6 +113,12 @@ void test_count_random()
         for(int k=0;k<max_age;++k){
           BOOST_TEST(counts[k]==random_set.get<age_r>().count(k));
           BOOST_TEST(counts[k]==random_set.get<age_o>().count(k));
+          uint group=0;
+          int decade_start=k/decade*decade;
+          for(int j=decade_start;j<decade_start+decade;++j)
+            group+=counts[j];
+          BOOST_TEST(group==random_set.get<age_r>().count(k,smaller_decade()));
+          BOOST_TEST(group==random_set.get<age_o>().count(k,smaller_decade()));
         }
       }
     }
